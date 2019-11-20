@@ -112,7 +112,17 @@
     <script>
     
     // 获取用户信息并显示
-        user.getInfo();
+        user.getInfo(function (res) {
+
+            console.log(res);
+            
+            if(res.code === 200){
+
+            $(".userimg").prop('src', res.data.user_pic)
+
+            $('#username').text(res.data.nickname)
+            }
+        });
        
 
 
@@ -120,7 +130,14 @@
 
         $('#outbtn').click(function () {
             
-            user.logout();
+            user.logout(function (res) {
+                
+                console.log(res);
+
+                if (res.code === 200) {
+                    window.location.href = './login.html'
+                }
+            });
         })
     
     
