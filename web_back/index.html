@@ -104,44 +104,8 @@
     </script>
 
 
-    <script>
-
-        // 代码语义化
-
-        var user = {
-
-            logout : function () {
-                $.post('http://localhost:8000/admin/logout', function (res) {
-
-                    console.log(res);
-
-                    if (res.code === 200) {
-                        window.location.href = './login.html'
-                    }   
-
-                })
-            },
-            getInfo: function () {
-                $.get('http://localhost:8000/admin/getuser', function (res) {
-
-                    console.log(res);
-
-                    if(res.code === 200){
-
-                        $(".userimg").prop('src', res.data.user_pic)
-
-                        $('#username').text(res.data.nickname)
-                    }
-    
-                })
-
-            }
-
-
-        }
-
-
-    </script>
+    <!-- 代码语义化单独一个js文件实现优化 -->
+    <script src="./js/means/user.js"></script>
 
 
 
