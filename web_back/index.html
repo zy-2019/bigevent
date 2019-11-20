@@ -18,7 +18,7 @@
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
             <img class="userimg" src="images/2.jpg" alt="person">
-            <span id="username" >欢迎&nbsp;&nbsp;李思思</span>
+            <span >欢迎&nbsp;&nbsp; <i id="username" style="font-size: none;">李思思</i> </span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -101,40 +101,66 @@
               $('.level02').children().eq(n).addClass('active').siblings().removeClass('active');
            }
         }
+    </script>
 
 
-        // 获取用户信息并显示
+    <script>
 
-        var username = $('#username').text();
-        var userimg = $('.userimg').prop('src');
+        // 代码语义化
 
-        $.get('http://localhost:8000/admin/getuser', {nickname : username , user_pic : userimg}, function (res) {
+        var user = {
 
-            console.log(res);
+            logout : function () {
+                $.post('http://localhost:8000/admin/logout', function (res) {
 
-            if(res.code === 200){
+                    console.log(res);
 
-                $(".userimg").prop('src', res.data.user_pic)
+                    if (res.code === 200) {
+                        window.location.href = './login.html'
+                    }   
 
-                $('#username').text(res.data.nickname)
+                })
+            },
+            getInfo: function () {
+                $.get('http://localhost:8000/admin/getuser', function (res) {
+
+                    console.log(res);
+
+                    if(res.code === 200){
+
+                        $(".userimg").prop('src', res.data.user_pic)
+
+                        $('#username').text(res.data.nickname)
+                    }
+    
+                })
+
             }
-            
-        })
 
 
+        }
+
+
+    </script>
+
+
+
+    <script>
+    
+    // 获取用户信息并显示
+        user.getInfo();
+       
+
+
+        // 用户退出到登录页按钮
 
         $('#outbtn').click(function () {
             
-            $.post('http://localhost:8000/admin/logout', function (res) {
-
-                console.log(res);
-
-                if (res.code === 200) {
-                    window.location.href = './login.html'
-                }   
-                
-            })
+            user.logout();
         })
+    
+    
+    
     </script>
 
 </body>

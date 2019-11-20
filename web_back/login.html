@@ -55,11 +55,34 @@
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- 优化alert框 -->
-    <!-- <script>
+    <script>
         
-        var user = {}
+        // 代码语义化
+        
+        var user = {
+
+            login : function (myname,mypassword) {
+                    $.post('http://localhost:8000/admin/login', {user_name : myname , password : mypassword} , function (res) {
+                    
+                    console.log(res);
+                    
+                    if (res.code === 200) {
+                        alert('登录成功')
+                        window.location.href = './index.html'
+                    }
+                    else if (res.code === 400) {
+                        // alert(res.msg)
+                        $('#msgInfo').text(res.msg)
+                        $('#myModal').modal('show')
+                    }
+
+                } )
+            }
+
+
+        }
     
-    </script> -->
+    </script>
 
     <script>
         
@@ -83,21 +106,8 @@
                 return;
             }
 
-            $.post('http://localhost:8000/admin/login', {user_name : myname , password : mypassword} , function (res) {
-                
-                console.log(res);
-                
-                if (res.code === 200) {
-                    alert('登录成功')
-                    window.location.href = './index.html'
-                }
-                else if (res.code === 400) {
-                    // alert(res.msg)
-                    $('#msgInfo').text(res.msg)
-                    $('#myModal').modal('show')
-                }
-
-            } )
+            user.login(myname, mypassword);
+            
 
         })
     
