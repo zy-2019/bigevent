@@ -29,7 +29,6 @@
                 <input id="ubtn" type="button" class="input_sub" value="登 录">
             </form>
         </div>
-
     </div>
 
     <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
@@ -62,6 +61,10 @@
 
     
 
+    <script src="./js/means/config.js"></script>
+
+    
+
     <script>
         // 1.通过点击事件获取用户名和密码
 
@@ -80,7 +83,6 @@
                 $('#myModal').modal('show')
                 return;
             }
-
             user.login(myname, mypassword,function (res) {
                 console.log(res);
                 if (res.code === 200) {

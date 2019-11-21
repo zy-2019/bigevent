@@ -28,8 +28,8 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="cateContainer">
+                    <!-- <tr>
                         <td>未分类</td>
                         <td>uncategorized</td>
                         <td class="text-center">
@@ -37,9 +37,9 @@
                                 class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
-                    <tr>
+                    <!-- <tr>
                         <td>奇趣事</td>
                         <td>funny</td>
                         <td class="text-center">
@@ -47,9 +47,9 @@
                                 class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
-                    <tr>
+                    <!-- <tr>
                         <td>会生活</td>
                         <td>living</td>
                         <td class="text-center">
@@ -57,9 +57,9 @@
                                 class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
-                    <tr>
+                    <!-- <tr>
                         <td>爱旅行</td>
                         <td>travel</td>
                         <td class="text-center">
@@ -67,7 +67,7 @@
                                 class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -91,11 +91,11 @@
               <form>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">分类名称:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <input type="text" class="form-control" id="up-name">
                 </div>
                 <div class="form-group">
                   <label for="message-text" class="control-label">分类别名:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <input type="text" class="form-control" id="down-name">
                 </div>
               </form>
             </div>
@@ -107,6 +107,7 @@
         </div>
       </div>
 
+      <!-- 模板的script -->
       <script>
           $('#addModal').modal({
             show:false,
@@ -114,12 +115,12 @@
           });
 
           $('#model_shutoff').click(function(){
-            alert('shutoff');
+            // alert('shutoff');
             $('#addModal').modal('hide');
           });
 
           $('#model_add').click(function(){
-            alert('add');
+            // alert('add');
             $('#addModal').modal('hide');
           });
 
@@ -129,6 +130,125 @@
                 $('#addModal').modal('show');
               }
           })      
+      </script>
+
+
+
+<!-- 引入js文件 -->
+
+    <script src="../web_back/js/template-web.js"></script>
+
+    <script src="./js/means/config.js"></script>
+
+    <script src="./js/means/category.js"></script>
+      <!-- 定义模板 -->
+
+      <!-- 获取信息并显示 -->
+
+       <!-- 2.定义模板 -->
+      <script type="text/html" id="temp">
+      {{each data item }}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:;"  class="btn btn-info btn-xs edit ">编辑</a>
+                <a href="javascript:;" data-id = {{item.id}} class="btn btn-danger btn-xs btn ">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+
+    </script>
+    <!-- 4.调用template函数为模板分配数据 获得渲染效果 -->
+      <script>
+
+        // 一进页面就要获取显示出来
+        getShow();
+        //   封装函数 
+        // 获取信息并在页面上显示
+        function getShow() {
+            
+          category.show(function (res) {
+
+            console.log(res);
+
+            //   <!-- 3.准备数据对象 -->
+            var shuju = template('temp', res);
+
+            //   显示在tbody里面
+            $('#cateContainer').html(shuju)
+
+            })
+        }
+
+        // 点击删除按钮删除
+
+        // 因为是动态添加的 所以要用事件委托去注册事件
+
+        $('#cateContainer').on('click','.btn', function () {
+            // console.log(res);
+
+            // 获取自定义属性
+            var id = $(this).attr('data-id');
+
+            console.log(id);
+            
+            category.del(id, function (res) {
+
+                // var id = $(this).attr('data-id');
+                
+                if (res.code === 200) {
+                    getShow();
+                }
+                else {
+                    alert(res.msg)
+                }
+
+            })
+            
+        })
+
+        // 3.添加分类
+
+        $('#model_add').click(function () {
+            
+            // 获取用户信息
+            var name = $('#up-name').val().trim();
+
+            var slug = $('#down-name').val().trim();
+
+            if (name === '' || slug === '') {
+                alert('内容不能为空')
+                return;
+            }
+            // 发请求
+
+            category.add(name,slug,function (res) {
+                
+                // 调用函数显示到页面上
+                getShow();
+
+                // 新增加完清空内容
+                $('#up-name').val('');
+
+                $('#down-name').val('');
+
+            } )
+
+        })
+        // 4.编辑
+
+
+
+
+
+
+
+
+        
+
+      
+      
       </script>
 
 </body>
