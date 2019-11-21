@@ -124,12 +124,12 @@
             $('#addModal').modal('hide');
           });
 
-          $('.category_table').delegate('a','click',function(){
-              if($(this).hasClass('btn-info')){
-                $('#addModal .modal-title').html('修改分类名称');
-                $('#addModal').modal('show');
-              }
-          })      
+        //   $('.category_table').delegate('a','click',function(){
+        //       if($(this).hasClass('btn-info')){
+        //         $('#addModal .modal-title').html('修改分类名称');
+        //         $('#addModal').modal('show');
+        //       }
+        //   })      
       </script>
 
 
@@ -194,8 +194,6 @@
             console.log(id);
             
             category.del(id, function (res) {
-
-                // var id = $(this).attr('data-id');
                 
                 if (res.code === 200) {
                     getShow();
@@ -226,16 +224,20 @@
             category.add(name,slug,function (res) {
                 
                 // 调用函数显示到页面上
-                getShow();
+                if (res.code === 200) {
+                    getShow();
+                    // 新增加完清空内容
+                    $('#up-name').val('');
 
-                // 新增加完清空内容
-                $('#up-name').val('');
-
-                $('#down-name').val('');
-
+                    $('#down-name').val('');
+                }
+                else {
+                    alert(res.msg)
+                }
+               
             } )
 
-        })
+        });
         // 4.编辑
 
 
