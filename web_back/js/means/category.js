@@ -20,13 +20,12 @@ var category = {
         $.post(APIURLS.category_add, {'name':name , 'slug' : slug},function (res) {
 
             // 把数据返回去自己处理
-
             callback(res)
         })
     },
 
-    edit : function (callback) {
-        $.post(APIURLS.category_edit,{    }, function (res) {
+    edit : function (id,name,slug,callback) {
+        $.post(APIURLS.category_edit,{'id' : id, 'name':name , 'slug' : slug }, function (res) {
             callback(res)
         })
     }

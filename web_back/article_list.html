@@ -53,11 +53,11 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="articleContainer">
 
 
 
-                    <tr>
+                    <!-- <tr>
                         
                         <td>王积千造统最头</td>
                         <td>杰克</td>
@@ -72,11 +72,11 @@
                             <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
 
 
-                    <tr>
+                    <!-- <tr>
                      
                         <td>级电使正回</td>
                         <td>肉丝</td>
@@ -243,7 +243,7 @@
                             <a href="post-edit.html?id=995" class="btn btn-default btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 995 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
 
                 </tbody>
@@ -274,6 +274,96 @@
             window.parent.setMenu(1,1);
         })
     </script>
+
+    <!-- 1.引入js文件 -->
+    <script src="./js/template-web.js"></script>
+    <script src="./js/means/articleContainer.js"></script>
+    <script src="./js/means/config.js"></script>
+    <script src="./js/means/category.js"></script>
+
+
+     <!-- 2.获取信息并在页面上显示 -->
+
+     <!-- 3. 定义模板 -->
+    
+    <script type="text/html" id="temp">
+        
+        {{each data item}}
+            <tr>       
+                <td>{{item.title}}}</td>
+                <td>{{item.author}}</td>
+                <td>{{item.type}}</td>
+                <td class="text-center">{{item.date}}</td>
+
+                <td class="text-center">{{item.state}}</td>
+
+                <td class="text-center">
+                    <a href="javascript:;" class=" btn-default btn-xs">编辑</a>
+                    <a href="javascript:;" data-id = {{item.id}} class="btn btn-danger btn-xs">删除</a>
+                </td>
+            </tr>
+        {{/each}}
+    
+    </script>
+   
+
+    <script>
+        
+        // 一进页面就要调用一次
+        getAddShow();
+        // 1. 获取用户信息并显示页面上 封装函数
+
+        function getAddShow() {
+
+            container.show(function (res) {
+            
+                console.log(res);
+            
+                // 调用函数
+                var htmlStar = template('temp', res)
+
+                // console.log(htmlStar);
+
+                $('#articleContainer').html( htmlStar );
+
+            })
+        }
+        
+        // 2.点击删除按钮删除当前的内容
+
+        // 由于是动态创建的 所以要用事件委托是注册事件
+
+        $('#articleContainer').on('click','.btn',function () {
+            
+            // 获取自定义id属性
+
+            var id = $(this).attr('data-id')
+
+            // 发请求
+            container.del(id,function (res) {
+                
+                console.log(res);
+                if (res.code === 200) {
+                    // 重发请求
+                    getAddShow()
+                }
+                else{
+                    alert(res.msg)
+                }
+
+            })
+
+
+        })
+
+        
+    
+    </script>
+
+
+
+    
+
 
 </body>
 
