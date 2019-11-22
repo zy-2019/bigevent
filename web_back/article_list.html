@@ -309,7 +309,10 @@
 
     <script>
         
-        // 一进页面就要调用一次
+
+
+        // 进页面就要调用一次
+        
         getAddShow();
         // 1. 获取用户信息并显示页面上 封装函数
 
@@ -338,7 +341,6 @@
             // 获取自定义id属性
 
             var id = $(this).attr('data-id')
-
             // 发请求
             container.del(id,function (res) {
                 

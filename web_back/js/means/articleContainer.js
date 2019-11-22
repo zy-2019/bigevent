@@ -9,7 +9,7 @@ var container = {
     },
 
     del : function (id,callback) {
-        
+
         $.get(APIURLS.article_del,{'id' : id}, function (res) {
             
             callback(res)
