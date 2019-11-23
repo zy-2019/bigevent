@@ -10,7 +10,6 @@ var APIURLS = {
     jkgetinfo : baseUrl +'admin/getuser',
 
 
-
     category_show:  baseUrl + 'admin/category_search',
     category_del : baseUrl + 'admin/category_delete',
     category_add : baseUrl + 'admin/category_add',
@@ -19,6 +18,9 @@ var APIURLS = {
 
     article_show: baseUrl + 'admin/search',
     article_del: baseUrl + 'admin/article_delete',
+    // 发布文章
+
+    article_add: baseUrl + 'admin/article_publish'
 
 
 

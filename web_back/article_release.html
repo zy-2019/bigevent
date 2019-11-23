@@ -23,23 +23,27 @@
             写文章
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myform">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input type="email" name="title" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
+                    <label for="inputPassword3"  class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" name="cover" id="exampleInputFile">
+                    </div>
+
+                    <div>
+                        <img id="previewImg" style="width: 200px;" src="" alt="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
+                        <select name="type" class="form-control">
                             <!-- <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -53,7 +57,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -72,8 +76,8 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
-                        <button type="submit" class="btn btn-default">存为草稿</button>
+                        <button type="button" id="btnAdd"  class="btn btn-success">发布</button>
+                        <button type="button"  class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
             </form>
@@ -86,6 +90,8 @@
     <script src="./js/means/category.js"></script>
 
     <script src="./js/means/config.js"></script>
+    
+    <script src="./js/means/article.js"></script>
 
     <!-- 2.定义模板 -->
     <script type="text/html" id="temp">
@@ -93,7 +99,7 @@
          <!-- // 定义一个script放定义模板 -->
         {{each data item}}
        
-        <option>{{item.name}}</option>
+        <option value ="{{item.id}}">{{item.name}}</option>
         
         {{/each}}
     
@@ -107,14 +113,81 @@
             console.log(res);
             //   <!-- 3.准备数据对象 -->
             // <!-- 4.调用template函数为模板分配数据 获得渲染效果 -->
-            // sort是类别
-            var sort = template('temp', res)
+            // cate是类别
+            if (res.code === 200) {
+
+                var cate = template('temp', res)
+                $('.form-control').html(cate)
+
+            }
+            else {
+                alert(res.msg)
+            }
             
-            $('.form-control').html(sort)
 
         })
-    
-    
+        
+
+
+        // 图片预览区域
+        $('#exampleInputFile').change(function () {
+            
+            var file = this.files[0];
+
+            if (file) {
+
+                var url = URL.createObjectURL(file);
+
+                $('#previewImg').prop('src',url)
+
+            }
+        })
+
+        // 发布文章
+        // FormData收集页面信息
+
+        $('#btnAdd').click(function () {
+
+            // FormData收集页面信息
+            var fd = new FormData(document.getElementById('myform'))
+
+            console.log(fd.get('title'));
+
+            fd.append('state' , '已发布')
+
+
+            fd.set('content', tinyMCE.activeEditor.getContent())
+
+            // 添加文章内容的bug要写在这里##########################
+
+            
+            // 由于是formdata所以只能用ajax去调用 下面要封装
+
+            // $.ajax({
+
+            //     url: 'http://localhost:8000/admin/article_publish',
+
+            //     type:'post',
+            
+            //     data: fd,
+
+            //     processData:false,//不要让jquery自动转换data
+
+            //     contentType:false,//不要自动给content-type设置值，formdata传参会有自己的请求头
+
+            //     success: function (res) {
+            //         console.log(res);
+                    
+            //     }
+            // })
+            article.add(fd,function (res) {
+
+                console.log(res);
+                
+            })
+            
+            
+        })
     </script>
 
 
