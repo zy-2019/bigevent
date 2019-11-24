@@ -31,8 +31,10 @@
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
                             <option value = ''>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+
+                            <option value="草稿">草稿</option>
+
+                            <option value="已发布">已发布</option>
                         </select>
                         <button id="btnSearch" type="button" class="btn btn-default btn-sm">筛选</button>
                     </form>
@@ -93,7 +95,7 @@
         
         {{each data item}}
             <tr>       
-                <td>{{item.title}}}</td>
+                <td>{{item.title}}</td>
                 <td>{{item.author}}</td>
                 <td>{{item.type}}</td>
                 <td class="text-center">{{item.date}}</td>
@@ -149,15 +151,16 @@
                 $('#articleContainer').html( htmlStar );
                 // 实现分页
 
+
                 // 如果前后两次查询结果得到的总页数不相同
-                // 则需要destory()分页插件，在做初始化
+                // 则需要destroy()分页插件删掉，在做初始化
 
-                // if (curTotalPage != res.totalPage) {
+                if (curTotalPage != res.totalPage) {
                     
-                //     // $('#pagination').twbsPagination('destory')
+                    $('#pagination-demo').twbsPagination('destroy')
 
-                //     curTotalPage = res.totalPage;
-                // }
+                    curTotalPage = res.totalPage;
+                }
 
                 $('#pagination-demo').twbsPagination(
                     {
@@ -198,7 +201,7 @@
 
             // console.log(type, state);
 
-            // 分页这块儿不是太懂
+            // 分页这块儿不是太懂aaaaa
             curpage = 1
             // 2.重新发送请求
             getAddShow()
@@ -258,11 +261,8 @@
     
     </script>
 
-    <!-- <script>
-        
-
-    </script>
- -->
+    
+    
 
 
 </body>

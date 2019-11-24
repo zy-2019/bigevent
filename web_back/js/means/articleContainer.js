@@ -11,14 +11,12 @@ var container = {
                 page : curpage,
                 type : type,
                 state : state,
-
              },
              function (res) {
             
             callback(res)
         })
     },
-
     // 删除的方法
     del : function (id,callback) {
 

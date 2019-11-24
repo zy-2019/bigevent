@@ -16,13 +16,17 @@ var APIURLS = {
     category_edit : baseUrl + 'admin/category_edit',
 
 
+
+    // 文章列表的
     article_show: baseUrl + 'admin/search',
     article_del: baseUrl + 'admin/article_delete',
-    // 发布文章
 
-    article_add: baseUrl + 'admin/article_publish'
+    // 发布文章的
+    article_add: baseUrl + 'admin/article_publish',
 
 
+    // 文章编辑的
+    articlele_edit: baseUrl + 'admin/article_edit'
 
 
 

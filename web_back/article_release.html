@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <link type="text/css" rel="stylesheet" href="js/jedate/css/jedate.css">
-    <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/jedate/js/jedate.js"></script>
     <script src="js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="js/tinymce/js/tinymce_setup.js"></script>
@@ -43,7 +42,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select name="type" class="form-control">
+                        <select name="type" id="select" class="form-control">
                             <!-- <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -71,7 +70,7 @@
                     <div class="col-sm-10">
                         <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
-                            </textarea>
+                        </textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -85,6 +84,8 @@
     </div>
 
     <!-- 1.引入js文件 -->
+    <script src="js/jquery-1.12.4.min.js"></script>
+
     <script src="./js/template-web.js"></script>
 
     <script src="./js/means/category.js"></script>
@@ -95,7 +96,6 @@
 
     <!-- 2.定义模板 -->
     <script type="text/html" id="temp">
-
          <!-- // 定义一个script放定义模板 -->
         {{each data item}}
        
@@ -117,7 +117,8 @@
             if (res.code === 200) {
 
                 var cate = template('temp', res)
-                $('.form-control').html(cate)
+
+                $('#select').html(cate)
 
             }
             else {
@@ -127,8 +128,6 @@
 
         })
         
-
-
         // 图片预览区域
         $('#exampleInputFile').change(function () {
             
@@ -136,8 +135,10 @@
 
             if (file) {
 
+                // 生成一个临时地址
                 var url = URL.createObjectURL(file);
 
+                // 替换图片的地址
                 $('#previewImg').prop('src',url)
 
             }
@@ -149,12 +150,13 @@
         $('#btnAdd').click(function () {
 
             // FormData收集页面信息
+
             var fd = new FormData(document.getElementById('myform'))
 
             console.log(fd.get('title'));
 
             fd.append('state' , '已发布')
-
+            
 
             fd.set('content', tinyMCE.activeEditor.getContent())
 
@@ -180,6 +182,7 @@
                     
             //     }
             // })
+            // 发请求调用接口
             article.add(fd,function (res) {
 
                 console.log(res);
