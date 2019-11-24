@@ -1,5 +1,5 @@
 
-
+// 类别的方法
 var category = {
 
     show : function (callback) {

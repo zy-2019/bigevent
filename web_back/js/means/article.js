@@ -1,6 +1,7 @@
 
 var article = {
 
+    // 发布文章的接口
     add : function (fd,callback) {
         
         $.ajax({
@@ -20,8 +21,46 @@ var article = {
                 callback(res)
             }
         })
-    }
+    },
 
+
+    // 获取文章的详情
+    getEdit : function (id, callback) {
+        $.get(APIURLS.article_show,
+            {
+                'id' : id,
+            },
+
+            function (res) {
+
+                callback(res)
+            }
+            
+            )
+    },
+
+    // 修改信息的接口
+
+    edit: function(fd ,callback){
+        $.ajax({
+            url: APIURLS.article_edit,
+
+            type: 'post',
+
+            data: fd,
+
+            processData: false,
+
+            contentType: false, 
+
+            success:function(res){
+                callback(res)
+            }
+        })
+    },
 
     
+    
+
+
 }
