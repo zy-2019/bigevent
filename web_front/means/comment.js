@@ -1,11 +1,11 @@
 
 var comment = {
 
-    add : function (name,neirong,id,callback) {
+    add : function (name,content,id,callback) {
         $.post(APIURLS.comment_add,
             {
                 'name' : name,
-                'concent' : neirong,
+                'content' : content,
                 'article_id' : id,
         },
 

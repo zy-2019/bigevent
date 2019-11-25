@@ -240,8 +240,8 @@
     </script>
     
     <script type="text/html" id="temp_down">
+        
         {{each data item index}}
-
         <!-- class="first" -->
         {{if index === 0  }}
         <li class= 'first' >  
@@ -277,7 +277,7 @@
 
         // 获取页面图片
         article.getImg(function (result) {
-            
+
             console.log(result);
 
             var htmlStr = template('temp_down',result)

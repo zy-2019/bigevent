@@ -210,14 +210,15 @@
     <script src="./means/article.js"></script>
     <script src="./means/config.js"></script>
     <script src="./means/comment.js"></script>
+    <script src="./means/category.js"></script>
 
     <script type="text/html" id="temp">
         {{each data item}}
         <div class="comment_detail_list">
-            <div class="person_pic fl">乔</div>
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
             <div class="name_time fl"><b>{{item.name}}</b><span>4小时前</span></div>
             <div class="comment_text fl">
-                {{item.concent}}
+                {{item.content}}
             </div>
         </div>
         {{/each}}
@@ -234,13 +235,46 @@
         article.getEdit(id,function (res) {
             console.log(res);
             // 替换内容
+            var typeId = res.data.type;
+
+            console.log(typeId);
+
             $('#article_title').text(res.data.title)
             $('#article_author').text(res.data.author)
             $('#article_date').text(res.data.date)
             $('#article_read').text(res.data.read)
+
             $('#article_type').text(res.data.type)
             $('#article_comment').text(res.data.comment)
             $('#article_content').html(res.data.content)
+
+            
+           
+            
+            
+            // 1.先取出所有类型的数据
+                // 2.然后进行判断
+             // 更换类别的接口
+            category.show(function (result) {
+                
+
+                // console.log(result);
+
+                var cate = result.data.find(function (item) {
+
+                    console.log(item.id);
+                    
+                    if (item.id == typeId) {
+                        return true;
+                    }
+                })  
+                if (cate) {
+                    $('#article_type').text(cate.name)
+                }
+                   
+                
+            })
+
         })
 
         // 评论发布
@@ -248,36 +282,44 @@
         $('#btn_comment').click(function () {
 
             var name = $('#userName').val().trim();
-            var neirong = $('#userComment').val().trim();
+            var content = $('#userComment').val().trim();
 
-            // console.log(name, concent);
+            console.log(name, content);
             
             // 获取输入框内容 先判断输入内容是否为空
-            if (name === '' || neirong === '') {
+            if (name === '' || content === '') {
 
                 alert('输入内容不能为空')
 
                 return;
             }
 
-            // 发请求添加评论
-
-            comment.add(name,neirong,id,function (res) {
+            // 发请求添加评论 一进页面要显示一次
+            comment.add(name,content,id,function (res) {
 
                 console.log(res);
-                
+                // 清空内容
+                $('#userName').val('')
+                $('#userComment').val('')
+
+                getAddShow();
             })
-
-            // 显示评论列表
-            comment.get(id,function (result) {
-                console.log(result);
-                
-                var htmlStr = template('temp', result)
-
-                $('#review_list').html(htmlStr)
-            })
-
         })
+        // 显示评论列表
+
+        function getAddShow() {
+                comment.get(id,function (res) {
+
+                    res.data.reverse()
+                    console.log(res);
+                    
+                    var htmlStr = template('temp', res)
+
+                    $('#review_list').html(htmlStr)
+                })
+            }
+
+            getAddShow();
     
     
     </script>

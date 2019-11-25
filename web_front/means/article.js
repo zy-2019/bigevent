@@ -53,34 +53,7 @@ var article = {
     },
 
 
-    publish : function (name,neirong,id,callback) {
-        $.post(APIURLS.comment_add,
-            {
-                'name' : name,
-                'concent' : neirong,
-                'article_id' : id,
-        },
-
-        function (res) {
-            callback(res)
-        }
-        
-        )
-    },
-    // 显示评论列表
-    listShow : function (id,callback) {
-        $.get(APIURLS.comment_list,
-            {
-            'article_id' : id,
-        },
-        function (res) {
-            callback(res)
-        }
-        
-        )
-
-    }
-
+    
     // 修改信息的接口
 
     // edit: function(fd ,callback){
